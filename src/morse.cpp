@@ -1,7 +1,6 @@
 #include "morse.hpp"
 #include <fstream>
 #include <iostream>
-#include <unordered_map>
 
 // Macro So We don't have to write an insane amount of if statements
 #define CheckCharacter(check_character, compare_character) \
