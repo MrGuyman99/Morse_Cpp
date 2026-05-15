@@ -18,7 +18,7 @@ void morse::cpp_to_morse(std::string FilePath) {
 		{'u', "..-"},	 {'v', "...-"},	  {'w', ".--"},	   {'x', "-..-"},
 		{'y', "-.--"},	 {'z', "--.."},	  {' ', "/"},	   {'1', ".----"},
 		{'2', "..---"},	 {'3', "...--"},  {'4', "....-"},  {'5', "....."},
-		{'6', "-...."},	 {'7', "--..."},  {'8', "--.."},   {'9', "----."},
+		{'6', "-...."},	 {'7', "--..."},  {'8', "---.."},  {'9', "----."},
 		{'0', "-----"},	 {'?', "..--.."}, {'!', "-.-.--"}, {'.', ".-.-.-"},
 		{',', "--..--"}, {';', "-.-.-."}, {':', "---..."}, {'+', ".-.-."},
 		{'-', "-....-"}, {'/', "-..-."},  {'=', "-..-"}};
@@ -35,14 +35,51 @@ void morse::cpp_to_morse(std::string FilePath) {
 		} catch (const std::out_of_range& e) {
 			std::cerr << "Character Not Supported! Character is: '"
 					  << current_character << "' Ignoring\n";
-			if (!converted_file.empty() && converted_file.back() == ' ') {
-				converted_file.pop_back();
-			}
 			converted_file += current_character;
+			converted_file.push_back(' ');
 		}
 	}
 	og_file.close();
-	std::ofstream write_file(FilePath, std::ios::app);
-	write_file << std::endl << "--------------\n" << converted_file;
+	std::ofstream write_file(FilePath);
+	write_file << converted_file;
 }
-void morse::morse_to_cpp(std::string FilePath) {}
+
+// Converts to morse code, adding all the morse characters to total_morse before
+// converting when finding a space
+void morse::morse_to_cpp(std::string FilePath) {
+	std::ifstream og_file(FilePath);
+	char current_character;
+	std::string total_morse;
+	std::string converted_file;
+	std::unordered_map<std::string, char> ascii_translate = {
+		{".-", 'a'},	 {"-...", 'b'},	  {"-.-.", 'c'},   {"-..", 'd'},
+		{".", 'e'},		 {"..-.", 'f'},	  {"--.", 'g'},	   {"....", 'h'},
+		{"..", 'i'},	 {".---", 'j'},	  {"-.-", 'k'},	   {".-..", 'l'},
+		{"--", 'm'},	 {"-.", 'n'},	  {"---", 'o'},	   {".--.", 'p'},
+		{"--.-", 'q'},	 {".-.", 'r'},	  {"...", 's'},	   {"-", 't'},
+		{"..-", 'u'},	 {"...-", 'v'},	  {".--", 'w'},	   {"-..-", 'x'},
+		{"-.--", 'y'},	 {"--..", 'z'},	  {"/", ' '},	   {".----", '1'},
+		{"..---", '2'},	 {"...--", '3'},  {"....-", '4'},  {".....", '5'},
+		{"-....", '6'},	 {"--...", '7'},  {"--..", '8'},   {"----.", '9'},
+		{"-----", '0'},	 {"..--..", '?'}, {"-.-.--", '!'}, {".-.-.-", '.'},
+		{"--..--", ','}, {"-.-.-.", ';'}, {"---...", ':'}, {".-.-.", '+'},
+		{"-....-", '-'}, {"..-.", '/'},	  {"-..-", '='}};
+	while (og_file.get(current_character)) {
+		if (current_character == ' ') {
+			try {
+				converted_file += ascii_translate.at(total_morse);
+				total_morse = "";
+			} catch (const std::out_of_range& e) {
+				std::cerr << "Character is not morse! Character is '"
+						  << total_morse << "' Ignoring\n";
+				converted_file += total_morse;
+				total_morse = "";
+			}
+		} else {
+			total_morse.push_back(current_character);
+		}
+	}
+	og_file.close();
+	std::ofstream write_file(FilePath);
+	write_file << converted_file;
+}
