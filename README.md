@@ -26,6 +26,23 @@ int main() {
 ```
 #### And vice versa
 
+## Conversion Table (ASCII to Morse):
+```cpp
+{'a', ".-"},	 {'b', "-..."},	  {'c', "-.-."},   {'d', "-.."},
+{'e', "."},		 {'f', "..-."},	  {'g', "--."},	   {'h', "...."},
+{'i', ".."},	 {'j', ".---"},	  {'k', "-.-"},	   {'l', ".-.."},
+{'m', "--"},	 {'n', "-."},	  {'o', "---"},	   {'p', ".--."},
+{'q', "--.-"},	 {'r', ".-."},	  {'s', "..."},	   {'t', "-"},
+{'u', "..-"},	 {'v', "...-"},	  {'w', ".--"},	   {'x', "-..-"},
+{'y', "-.--"},	 {'z', "--.."},	  {' ', "/"},	   {'1', ".----"},
+{'2', "..---"},	 {'3', "...--"},  {'4', "....-"},  {'5', "....."},
+{'6', "-...."},	 {'7', "--..."},  {'8', "---.."},  {'9', "----."},
+{'0', "-----"},	 {'?', "..--.."}, {'!', "-.-.--"}, {'.', ".-.-.-"},
+{',', "--..--"}, {';', "-.-.-."}, {':', "---..."}, {'+', ".-.-."},
+{'-', "-....-"}, {'/', "-..-."},  {'=', "-..-"}
+```
+**All morse characters should be seperated by spaces when programming!!**
+
 ## How to Use:
 	1.) Setup your compiler/build system as you normally would
 	2.) Clone and compile this repository and put the compiled executable in the project's directory
@@ -36,7 +53,7 @@ int main() {
 cmake_minimum_required(VERSION 3.24)
 project(Test)
 set(CMAKE_BUILD_TYPE Debug)
-# The CMAKE_RUNTIME_OUTPUT_DIRECTORY is set to the root folder here (Where Mose_Code is located)
+# The CMAKE_RUNTIME_OUTPUT_DIRECTORY is set to the root folder here (Where Morse_Code is located)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "..")
 
 set(CMAKE_CXX_STANDARD 23)
@@ -78,6 +95,8 @@ add_dependencies(${PROJECT_NAME} Translate)
 - At the moment we assume that every letter is lowercased (since all C++ keywords are lowercased), but I could make something like a control character to be able to denote uppercase and lowercase text for strings and variable names.
 
 - Every Character in the morse also needs to have a space before and after it, even those not written in morse. I could maybe fix this, but it's a bug not a feature ;)
+
+- All ASCII characters not supported by translation get ignored (Example: Capital H and W in "Hello World would still be present in the morse translated version)
 
 - Also does only support one file at a time at the moment lol
 
