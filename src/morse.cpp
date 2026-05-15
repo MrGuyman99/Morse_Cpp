@@ -33,8 +33,6 @@ void morse::cpp_to_morse(std::string FilePath) {
 			converted_file += morse_translate.at(current_character);
 			converted_file += " ";
 		} catch (const std::out_of_range& e) {
-			std::cerr << "Character Not Supported! Character is: '"
-					  << current_character << "' Ignoring\n";
 			converted_file += current_character;
 			converted_file.push_back(' ');
 		}
@@ -70,8 +68,6 @@ void morse::morse_to_cpp(std::string FilePath) {
 				converted_file += ascii_translate.at(total_morse);
 				total_morse = "";
 			} catch (const std::out_of_range& e) {
-				std::cerr << "Character is not morse! Character is '"
-						  << total_morse << "' Ignoring\n";
 				converted_file += total_morse;
 				total_morse = "";
 			}
